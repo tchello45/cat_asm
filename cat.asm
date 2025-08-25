@@ -1,5 +1,4 @@
 section .data
-    file_path db "README.md", 0
     buffer_size equ 256
 
 section .bss
@@ -14,17 +13,11 @@ _start:
 
     .count_loop:
         cmp byte [rdx + rcx], 0
-        je .done
+        je .open_file
         inc rcx
         jmp .count_loop
     
-    .done:
-        mov rax, 1
-        mov rdi, 1 
-        mov rsi, rdx
-        mov rdx, rcx
-        syscall
-
+    .open_file:
         mov rax, 2
         mov rdi, [rsp + 16]
         mov rsi, 0
@@ -33,11 +26,14 @@ _start:
 
         mov r12, rax
 
+    .read_file:
         mov rax, 0
         mov rdi, r12
         mov rsi, read_buffer
         mov rdx, buffer_size
         syscall
+    
+    .print_file:
 
         mov rbx, rax
 
@@ -47,6 +43,7 @@ _start:
         mov rdx, rbx
         syscall
 
+    .exit_file:
 
         mov rax, 60
         mov rdi, 0
