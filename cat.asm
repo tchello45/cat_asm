@@ -26,7 +26,7 @@ _start:
         syscall
 
         mov rax, 2
-        mov rdi, file_path
+        mov rdi, [rsp + 16]
         mov rsi, 0
         mov rdx, 0
         syscall
